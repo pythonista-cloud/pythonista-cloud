@@ -1,7 +1,7 @@
 # coding: utf-8
 
 '''
-cloud_test.py
+cloud.py
 
 Vision:
 
@@ -13,7 +13,7 @@ Credits:
 
 '''
 
-import os
+import cloud, os
 
 SITE_DIR = os.path.expanduser('~/Documents/site-packages')
 
@@ -22,5 +22,5 @@ if __name__ == '__main__':
 	filename = 'Gestures'
 	filepath = os.path.join(SITE_DIR, filename)
 	print('Before: os.path.isfile({}) is {}'.format(filepath, os.path.isfile(filepath)))
-	Import(filename)
+	cloud.Import(filename)
 	print(' After: os.path.isfile({}) is {}'.format(filepath, os.path.isfile(filepath)))
