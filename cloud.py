@@ -58,4 +58,5 @@ def Import(sTarget):
 	locals()[sTarget.split('.')[0]] = importlib.import_module(sTarget.split('.')[0])
 	if len(sTarget.split('.')) != 1: locals()[sTarget.split('.')[1]] = importlib.import_module(sTarget)
 	reload(locals()[sTarget.split('.')[0]])
+        if len(sTarget.split('.')) != 1: reload(locals()[sTarget.split('.')[1]])
 	inspect.currentframe().f_back.f_globals[sTarget.split('.')[0]] = locals()[sTarget.split('.')[0]]
