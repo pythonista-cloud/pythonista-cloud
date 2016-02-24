@@ -20,18 +20,36 @@ SITE_DIR = os.path.join(DOCS_DIR, 'site-packages')
 CLOUD_PKL = os.path.join(SITE_DIR, 'cloud.pkl')
 URL = 'http://forum.omz-software.com/topic/2775/cloud-import'
 
+def load_index():
+	'''Load from the cloud the plist that serves as an index for all modules. For now,
+	"the cloud" is XML posted on the omz:software forums, but that will change soon.'''
+	soup = bs4.BeautifulSoup(requests.get(URL).text) # BeautifulSoup object for the forum post
+		for code in soup.find_all('code', class_='xml'): # Find all code blocks with the class "xml"
+			s = code.getText() # Get text from the code
+			if s.startswith('<?xml'): # Is the code block valid xml?
+				return plistlib.readPlistFromString(s) # Load plist from code and return 
+
+
 def Import(sTarget):
-	soup = bs4.BeautifulSoup(requests.get(URL).text)
-	for code in soup.find_all('code', class_='xml'):
-		s = code.getText()
-		if s.startswith('<?xml'): 
-			urlZ = plistlib.readPlistFromString(s)[sTarget]
-			break
-	d = dict()
-	if os.path.isfile(CLOUD_PKL):
-		with open(CLOUD_PKL, 'r') as f:
-			d = pickle.Unpickler(f).load()
-	s = html2text.html2text(requests.get(urlZ).text)
+	''' Load a module from the cloud into the normal namespace. Equivalent to
+	"import <sTarget>" but it will download the module from the cloud.'''
+	
+	# The index of all modules
+	module_index = load_plist()
+	# URL for the requested module
+	try:
+		urlZ = module_index[sTarget]
+	except KeyError:
+		return None
+	
+	d = {}
+	# Pickled dictionary of modules
+	if os.path.isfile(CLOUD_PKL): # Is there already a pickled dictionary?
+		with open(CLOUD_PKL, 'r') as f: # If so, open it,
+			d = pickle.Unpickler(f).load() # And then unpickle it
+	
+	s = html2text.html2text(requests.get(urlZ).text) # Load the text of the GitHub repo linked
+	# The number of commits that have been made (occurs just before "commits" in the text of the page)
 	i = s.find('commits')
 	iNow = int(s[i - 4:i - 1])
 	try:
