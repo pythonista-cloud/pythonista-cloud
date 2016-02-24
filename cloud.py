@@ -35,7 +35,7 @@ def Import(sTarget):
 	"import <sTarget>" but it will download the module from the cloud.'''
 	
 	# The index of all modules
-	module_index = load_plist()
+	module_index = load_index()
 	# URL for the requested module
 	try:
 		urlZ = module_index[sTarget]
