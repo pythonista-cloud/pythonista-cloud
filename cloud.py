@@ -42,44 +42,57 @@ def Import(sTarget):
 	except KeyError:
 		return None
 	
+	# Pickled dictionary of modules. Pairs each module name with the number of commits at the time of last update.
 	d = {}
-	# Pickled dictionary of modules
 	if os.path.isfile(CLOUD_PKL): # Is there already a pickled dictionary?
 		with open(CLOUD_PKL, 'r') as f: # If so, open it,
 			d = pickle.Unpickler(f).load() # And then unpickle it
 	
 	s = html2text.html2text(requests.get(urlZ).text) # Load the text of the GitHub repo linked
+	
 	# The number of commits that have been made (occurs just before "commits" in the text of the page)
 	i = s.find('commits')
 	iNow = int(s[i - 4:i - 1])
+	
+	# Find the previous number of commits (if installed before) by checking the dictionary
 	try:
 		iOld = d[sTarget.split('.')[0]]
-	except:
-		iOld = -1
+	except KeyError:
+		iOld = -1 # Fallback to -1
+	# Set the current version
 	d[sTarget.split('.')[0]] = iNow
 	with open(CLOUD_PKL, 'w') as f:
 		pickle.Pickler(f).dump(d)
+	
+	# Module needs to be updated if number of commits now is greater than the number of commits at time of download
 	if iNow > iOld:
 		console.hud_alert('updating ' + sTarget + ' ...')
-		urlZ += '/archive/master.zip'
+		urlZ += '/archive/master.zip' # URL for downloading a zip of the repo
+		# Download zipfile and extract
 		content = requests.get(urlZ, stream=True).content
+		# Load into a StringIO file-like object to avoid having to save locally
 		with zipfile.ZipFile(cStringIO.StringIO(content)) as zip_file:
-			for member in zip_file.namelist():
-				l = member.split('/')
-				if len(l) <= 2: # module
-					if l[-1][-3:] == '.py':
+			for member in zip_file.namelist(): # Iterate through all files in zip
+				l = member.split('/') # Split path to file
+				
+				if len(l) <= 2 and l[-1][-3:] == '.py': # module
 						zip_file.extract(member, DOCS_DIR)
 						shutil.move(os.path.join(DOCS_DIR, member), os.path.join(SITE_DIR, l[-1]))
-				else: # package
-					if l[1] == sTarget.split('.')[0] and l[-1] != '':
+						
+				elif l[1] == sTarget.split('.')[0] and l[-1] != '': # package
 						zip_file.extract(member, DOCS_DIR)
 						dest_path = os.path.join(SITE_DIR, l[-2])
 						if not dest_path:
 							os.mkdir(dest_path)
 						shutil.move(os.path.join(DOCS_DIR, member), os.path.join(dest_path, l[-1]))
+						
 		shutil.rmtree(os.path.join(DOCS_DIR, l[0]))
-	locals()[sTarget.split('.')[0]] = importlib.import_module(sTarget.split('.')[0])
-	if len(sTarget.split('.')) != 1: locals()[sTarget.split('.')[1]] = importlib.import_module(sTarget)
-	reload(locals()[sTarget.split('.')[0]])
-        if len(sTarget.split('.')) != 1: reload(locals()[sTarget.split('.')[1]])
+	# Load the main module
+	locals()[sTarget.split('.')[0]] = importlib.import_module(sTarget.split('.')[0]) # Load the top level module
+	reload(locals()[sTarget.split('.')[0]]) # Reload the top-level module
+	# Load a submodule
+	if len(sTarget.split('.')) != 1: # A submodule was imported
+		locals()[sTarget.split('.')[1]] = importlib.import_module(sTarget) # Load the submodule
+		reload(locals()[sTarget.split('.')[1]]) # Reload the submodule
+	# Load into the local namespace
 	inspect.currentframe().f_back.f_globals[sTarget.split('.')[0]] = locals()[sTarget.split('.')[0]]
