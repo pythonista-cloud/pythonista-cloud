@@ -24,10 +24,10 @@ def load_index():
 	'''Load from the cloud the plist that serves as an index for all modules. For now,
 	"the cloud" is XML posted on the omz:software forums, but that will change soon.'''
 	soup = bs4.BeautifulSoup(requests.get(URL).text) # BeautifulSoup object for the forum post
-		for code in soup.find_all('code', class_='xml'): # Find all code blocks with the class "xml"
-			s = code.getText() # Get text from the code
-			if s.startswith('<?xml'): # Is the code block valid xml?
-				return plistlib.readPlistFromString(s) # Load plist from code and return 
+	for code in soup.find_all('code', class_='xml'): # Find all code blocks with the class "xml"
+		s = code.getText() # Get text from the code
+		if s.startswith('<?xml'): # Is the code block valid xml?
+			return plistlib.readPlistFromString(s) # Load plist from code and return 
 
 
 def Import(sTarget):
