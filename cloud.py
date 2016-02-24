@@ -82,17 +82,19 @@ def Import(sTarget):
 		with zipfile.ZipFile(cStringIO.StringIO(content)) as zip_file:
 			for member in zip_file.namelist(): # Iterate through all files in zip
 				l = member.split('/') # Split path to file
-				
-				if len(l) <= 2 and l[-1][-3:] == '.py': # module
-						zip_file.extract(member, DOCS_DIR)
-						shutil.move(os.path.join(DOCS_DIR, member), os.path.join(SITE_DIR, l[-1]))
-						
-				elif l[1] == sTarget.split('.')[0] and l[-1] != '': # package
-						zip_file.extract(member, DOCS_DIR)
-						dest_path = os.path.join(SITE_DIR, l[-2])
-						if not dest_path:
-							os.mkdir(dest_path)
-						shutil.move(os.path.join(DOCS_DIR, member), os.path.join(dest_path, l[-1]))
+				# Just two levels deep into the zip, this is part of a moule
+				if len(l) <= 2 and l[-1][-3:] == '.py': # It's a module, and it's a python source file
+					# Extract the file and move it from the temp dir to site-packages
+					zip_file.extract(member, DOCS_DIR)
+					shutil.move(os.path.join(DOCS_DIR, member), os.path.join(SITE_DIR, l[-1]))
+					
+				elif l[1] == sTarget.split('.')[0] and l[-1] != '': # We're deeper into the module
+					zip_file.extract(member, DOCS_DIR) # Extract to documents
+					dest_path = os.path.join(SITE_DIR, l[-2]) # The path in which the package will live
+					if not dest_path: # Make a folder for this module if it doesn't exist
+						os.mkdir(dest_path)
+					# Move the file to the site-packages folder
+					shutil.move(os.path.join(DOCS_DIR, member), os.path.join(dest_path, l[-1]))
 						
 		shutil.rmtree(os.path.join(DOCS_DIR, l[0]))
 	# Load the main module
