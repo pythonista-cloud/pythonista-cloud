@@ -59,10 +59,6 @@ def Import(sTarget):
 		iOld = d[sTarget.split('.')[0]]
 	except KeyError:
 		iOld = -1 # Fallback to -1
-	# Set the current version
-	d[sTarget.split('.')[0]] = iNow
-	with open(CLOUD_PKL, 'w') as f:
-		pickle.Pickler(f).dump(d)
 	
 	# Module needs to be updated if number of commits now is greater than the number of commits at time of download, or if the module does not exist
 	
@@ -106,6 +102,11 @@ def Import(sTarget):
 		reload(locals()[sTarget.split('.')[1]]) # Reload the submodule
 	# Load into the local namespace
 	inspect.currentframe().f_back.f_globals[sTarget.split('.')[0]] = locals()[sTarget.split('.')[0]]
+	
+	# Set the current version
+	d[sTarget.split('.')[0]] = iNow
+	with open(CLOUD_PKL, 'w') as f:
+		pickle.Pickler(f).dump(d)
 
 if __name__ == "__main__":
 	Import("Gestures")
