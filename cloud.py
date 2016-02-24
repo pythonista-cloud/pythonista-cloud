@@ -64,8 +64,16 @@ def Import(sTarget):
 	with open(CLOUD_PKL, 'w') as f:
 		pickle.Pickler(f).dump(d)
 	
-	# Module needs to be updated if number of commits now is greater than the number of commits at time of download
-	if iNow > iOld:
+	# Module needs to be updated if number of commits now is greater than the number of commits at time of download, or if the module does not exist
+	
+	# The module may have been deleted
+	try:
+		reload(__import__(sTarget))
+		nonexistant=False
+	except ImportError:
+		nonexistant=True
+	
+	if iNow > iOld or nonexistant:
 		console.hud_alert('updating ' + sTarget + ' ...')
 		urlZ += '/archive/master.zip' # URL for downloading a zip of the repo
 		# Download zipfile and extract
