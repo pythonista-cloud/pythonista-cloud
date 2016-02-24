@@ -96,3 +96,6 @@ def Import(sTarget):
 		reload(locals()[sTarget.split('.')[1]]) # Reload the submodule
 	# Load into the local namespace
 	inspect.currentframe().f_back.f_globals[sTarget.split('.')[0]] = locals()[sTarget.split('.')[0]]
+
+if __name__ == "__main__":
+	Import("Gestures")
