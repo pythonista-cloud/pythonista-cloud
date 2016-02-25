@@ -20,34 +20,37 @@ SITE_DIR = os.path.join(DOCS_DIR, 'site-packages')
 CLOUD_PKL = os.path.join(SITE_DIR, 'cloud.pkl')
 URL = 'http://forum.omz-software.com/topic/2775/cloud-import'
 
-def load_index():
+def load_index(url):
 	'''Load from the cloud the plist that serves as an index for all modules. For now,
 	"the cloud" is XML posted on the omz:software forums, but that will change soon.'''
-	soup = bs4.BeautifulSoup(requests.get(URL).text) # BeautifulSoup object for the forum post
+	soup = bs4.BeautifulSoup(requests.get(url).text) # BeautifulSoup object for the forum post
 	for code in soup.find_all('code', class_='xml'): # Find all code blocks with the class "xml"
-		s = code.getText() # Get text from the code
+		s = code.get_text() # Get text from the code
 		if s.startswith('<?xml'): # Is the code block valid xml?
 			return plistlib.readPlistFromString(s) # Load plist from code and return 
 
+# The index of all modules
+module_index = load_index()
+
+def read_dict_from_pickle(pickle_file_name):
+	try:
+		with open(CLOUD_PKL, 'r') as f: # If so, open it,
+			return pickle.Unpickler(f).load() # And then unpickle it
+	except IOError:
+		return {}
 
 def Import(sTarget):
 	''' Load a module from the cloud into the normal namespace. Equivalent to
 	"import <sTarget>" but it will download the module from the cloud.'''
 	
-	# The index of all modules
-	module_index = load_index()
 	# URL for the requested module
 	try:
 		urlZ = module_index[sTarget]
 	except KeyError:
-		return None
+		return None  # do we really want to fail silently here?
 	
 	# Pickled dictionary of modules. Pairs each module name with the number of commits at the time of last update.
-	d = {}
-	if os.path.isfile(CLOUD_PKL): # Is there already a pickled dictionary?
-		with open(CLOUD_PKL, 'r') as f: # If so, open it,
-			d = pickle.Unpickler(f).load() # And then unpickle it
-	
+	d = read_dict_from_pickle(CLOUD_PKL):
 	s = html2text.html2text(requests.get(urlZ).text) # Load the text of the GitHub repo linked
 	
 	# The number of commits that have been made (occurs just before "commits" in the text of the page)
