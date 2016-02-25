@@ -29,8 +29,8 @@ def load_index(url):
 		if s.startswith('<?xml'): # Is the code block valid xml?
 			return plistlib.readPlistFromString(s) # Load plist from code and return 
 
-# The index of all modules
-module_index = load_index()
+# A dict of all modules
+module_index = load_index(URL)
 
 def read_dict_from_pickle(pickle_file_name):
 	try:
