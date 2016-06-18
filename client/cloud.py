@@ -1,16 +1,11 @@
 # coding: utf-8
 
 '''
-cloud.py 
+cloud.py - import code from a remote repository with ease. Designed to be run
+from Pythonista.
 
-Vision: 
-
-- cloud.Import: to make the entry curve to using code hosted on GitHub much easier
-
-Credits: 
-
-- cloud.Import: idea and first version by @guerito, future versions on @webmaster4o's GitHub
-
+Idea and initial implementation by Tony Kainos (@guerito), all further
+development by Luke Taylor
 '''
 
 import bs4, console, cStringIO, html2text, importlib, inspect, os, pickle, plistlib, requests, shutil, zipfile
@@ -27,7 +22,7 @@ def load_index(url):
 	for code in soup.find_all('code', class_='xml'): # Find all code blocks with the class "xml"
 		s = code.get_text() # Get text from the code
 		if s.startswith('<?xml'): # Is the code block valid xml?
-			return plistlib.readPlistFromString(s) # Load plist from code and return 
+			return plistlib.readPlistFromString(s) # Load plist from code and return
 
 # A dict of all modules
 module_index = load_index(URL)
@@ -42,36 +37,36 @@ def read_dict_from_pickle(pickle_file_name):
 def Import(sTarget):
 	''' Load a module from the cloud into the normal namespace. Equivalent to
 	"import <sTarget>" but it will download the module from the cloud.'''
-	
+
 	# URL for the requested module
 	try:
 		urlZ = module_index[sTarget]
 	except KeyError:
 		return None  # do we really want to fail silently here?
-	
+
 	# Pickled dictionary of modules. Pairs each module name with the number of commits at the time of last update.
 	d = read_dict_from_pickle(CLOUD_PKL):
 	s = html2text.html2text(requests.get(urlZ).text) # Load the text of the GitHub repo linked
-	
+
 	# The number of commits that have been made (occurs just before "commits" in the text of the page)
 	i = s.find('commits')
 	iNow = int(s[i - 4:i - 1])
-	
+
 	# Find the previous number of commits (if installed before) by checking the dictionary
 	try:
 		iOld = d[sTarget.split('.')[0]]
 	except KeyError:
 		iOld = -1 # Fallback to -1
-	
+
 	# Module needs to be updated if number of commits now is greater than the number of commits at time of download, or if the module does not exist
-	
+
 	# The module may have been deleted
 	try:
 		reload(__import__(sTarget))
 		nonexistant=False
 	except ImportError:
 		nonexistant=True
-	
+
 	if iNow > iOld or nonexistant:
 		console.hud_alert('updating ' + sTarget + ' ...')
 		urlZ += '/archive/master.zip' # URL for downloading a zip of the repo
@@ -86,7 +81,7 @@ def Import(sTarget):
 					# Extract the file and move it from the temp dir to site-packages
 					zip_file.extract(member, DOCS_DIR)
 					shutil.move(os.path.join(DOCS_DIR, member), os.path.join(SITE_DIR, l[-1]))
-					
+
 				elif l[1] == sTarget.split('.')[0] and l[-1] != '': # We're deeper into the module
 					zip_file.extract(member, DOCS_DIR) # Extract to documents
 					dest_path = os.path.join(SITE_DIR, l[-2]) # The path in which the package will live
@@ -94,7 +89,7 @@ def Import(sTarget):
 						os.mkdir(dest_path)
 					# Move the file to the site-packages folder
 					shutil.move(os.path.join(DOCS_DIR, member), os.path.join(dest_path, l[-1]))
-						
+
 		shutil.rmtree(os.path.join(DOCS_DIR, l[0]))
 	# Load the main module
 	locals()[sTarget.split('.')[0]] = importlib.import_module(sTarget.split('.')[0]) # Load the top level module
@@ -105,7 +100,7 @@ def Import(sTarget):
 		reload(locals()[sTarget.split('.')[1]]) # Reload the submodule
 	# Load into the local namespace
 	inspect.currentframe().f_back.f_globals[sTarget.split('.')[0]] = locals()[sTarget.split('.')[0]]
-	
+
 	# Set the current version
 	d[sTarget.split('.')[0]] = iNow
 	with open(CLOUD_PKL, 'w') as f:
