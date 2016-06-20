@@ -1,0 +1,87 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Normal stuff */
+
+body {
+  color: #fff;
+
+  font-family: "Raleway" sans-serif;
+  margin: 0;
+}
+
+h1 {
+  font-size: 7vw;
+  font-weight: 100;
+  text-transform: uppercase;
+  margin: 0;
+  text-align: center;
+}
+
+p {
+  font-size: 2vw;
+  font-weight: 400;
+  text-align: center;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 1px;
+}
+
+@media (max-width: 420px) {
+  h1 {
+    font-size: 12.5vw;
+  }
+  p {
+    font-size: 7vw;
+  }
+}
+
+/* Page "sections" that are the full viewport size */
+
+div.section {
+  width: 100vw;
+  height: 100vh;
+  padding: 10% 10% 0;
+  position: relative;
+}
+
+#one {
+  background: #00b388; /* Fallback - average of the two gradient colors */
+  background: linear-gradient(#00d38b, #009285);
+}
+
+#two {
+  background: #007b9f; /* Fallback - average of the two gradient colors */
+  background: linear-gradient(#0095b3, #00618b);
+}
+
+/* Down arrows at the bottom of each "page" that bounce when they hover */
+
+i.ion-chevron-down {
+  left: 50%;
+  font-size: 5vw;
+
+  position: absolute;
+  bottom: 0;
+
+  cursor: pointer;
+
+  -webkit-transform: translateX(-50%) translate3d(0, 0, 0); /* Force hardware acceleration to fix artifacts */
+  margin: 0;
+  padding: 0;
+}
+
+i.ion-chevron-down:hover {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0% { bottom: 0; }
+  50% { bottom: 10px; }
+  100% { bottom: 0; }
+}
