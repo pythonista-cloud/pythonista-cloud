@@ -59,29 +59,3 @@ div.section {
   background: #007b9f; /* Fallback - average of the two gradient colors */
   background: linear-gradient(#0095b3, #00618b);
 }
-
-/* Down arrows at the bottom of each "page" that bounce when they hover */
-
-i.ion-chevron-down {
-  left: 50%;
-  font-size: 5vw;
-
-  position: absolute;
-  bottom: 0;
-
-  cursor: pointer;
-
-  -webkit-transform: translateX(-50%) translate3d(0, 0, 0); /* Force hardware acceleration to fix artifacts */
-  margin: 0;
-  padding: 0;
-}
-
-i.ion-chevron-down:hover {
-  animation: bounce 1s infinite;
-}
-
-@keyframes bounce {
-  0% { bottom: 0; }
-  50% { bottom: 10px; }
-  100% { bottom: 0; }
-}
