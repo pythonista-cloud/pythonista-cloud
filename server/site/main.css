@@ -9,6 +9,10 @@ body {
 
   font-family: "Raleway" sans-serif;
   margin: 0;
+
+  background: #00b388; /* Fallback - average of the two gradient colors */
+  background: linear-gradient(#00d38b, #009285);
+  background-attachment: fixed;
 }
 
 h1 {
@@ -50,12 +54,15 @@ div.section {
   position: relative;
 }
 
-#one {
-  background: #00b388; /* Fallback - average of the two gradient colors */
-  background: linear-gradient(#00d38b, #009285);
+#two {
+  background: #fff;
+  color: #212121;
 }
 
-#two {
-  background: #007b9f; /* Fallback - average of the two gradient colors */
-  background: linear-gradient(#0095b3, #00618b);
+#particles {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
