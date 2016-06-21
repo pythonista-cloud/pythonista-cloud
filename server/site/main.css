@@ -7,7 +7,7 @@
 body {
   color: #fff;
 
-  font-family: "Raleway" sans-serif;
+  font-family: "Raleway", sans-serif;
   margin: 0;
 
   background: #00b388; /* Fallback - average of the two gradient colors */
@@ -39,7 +39,7 @@ a {
 code {
   background-color: rgba(255, 255, 255, 0.3);
   padding: 1px 3px 3px;
-  font-family: "Inconsolata" monospace;
+  font-family: "Inconsolata", monospace;
 }
 
 @media (max-width: 420px) {
