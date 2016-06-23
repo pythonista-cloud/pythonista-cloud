@@ -1,19 +1,21 @@
-from flask import Flask, send_file, send_from_directory
-import sys
+import flask
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
+
 
 @app.route("/")
 def index():
-    return send_file("site/main.html")
+    return flask.send_file("site/main.html")
+
 
 @app.route("/main.<ext>")
 def assetFile(ext):
-    return send_from_directory("site", "main."+ext)
+    return flask.send_from_directory("site", "main." + ext)
+
 
 @app.route("/particleground.min.js")
 def assertFile():
-    return send_file("site/particleground.min.js")
+    return flask.send_file("site/particleground.min.js")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(debug=True)
