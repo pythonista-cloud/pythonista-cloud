@@ -20,6 +20,7 @@ For the initial release, I'll keep things very basic. The server will have as li
 
 #### A non-exhaustive list of planned features for the longer-term future
 Sorted roughly by order of planned implementation
+
 1. **Basic update system**: the `cloud.update("my_module")` method will retrieve `my_module` from the index, then check the GitHub repo for new releases. If the latest release is beyond the release version stored in `~/cloud.json`, the new version will be downloaded and installed.
 2. **More package info**: Allow adding extra information to packages like:
   - supported Python versions, to determine whether to install into `site-packages`, `site-packages-2`, or `site-packages-3`
