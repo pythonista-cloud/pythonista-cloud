@@ -31,3 +31,10 @@ Sorted roughly by order of planned implementation
 5. **Finer-grained control for GitHub users**: Give GitHub users more control.
   - Allow users to publish releases individually, tied to a single commit.
   - Allow descriptions that are different from descriptions on GitHub
+
+## Contribute
+Pull Requests are more than welcome, as are bug reports.
+
+The most helpful way to give back is by helping to cover the costs of the server:
+
+[![PayPal Donation](https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Z6PB7YRG6PBN4&lc=US&currency_code=USD&bn=PP%2dDonationsBF%3abdg_now_accepting_pp_2line_w%2epng%22%20border%3d%220%22%20alt%3d%22Now%20accepting%20PayPal%3aNonHostedGuest)
