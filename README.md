@@ -36,6 +36,6 @@ Sorted roughly by order of planned implementation
 ## Contribute
 Pull Requests are more than welcome, as are bug reports.
 
-The most helpful way to give back is by helping to cover the costs of the server:
+If you'd like to support this project, please consider a donation via PayPal to cover server costs:
 
-[![PayPal Donation](https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Z6PB7YRG6PBN4&lc=US&currency_code=USD&bn=PP%2dDonationsBF%3abdg_now_accepting_pp_2line_w%2epng%22%20border%3d%220%22%20alt%3d%22Now%20accepting%20PayPal%3aNonHostedGuest)
+[![PayPal Donation](https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Z6PB7YRG6PBN4&lc=US&currency_code=USD)
