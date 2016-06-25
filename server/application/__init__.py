@@ -18,6 +18,12 @@ def index():
     return flask.send_file(os.path.join(staticdir, "main.html"))
 
 
+@app.route("/", methods=["POST"])
+def submit():
+    """ Allow submission of new packages via a POST request """
+    return "Data recieved: {}".format(flask.request.get_json())
+
+
 @app.route("/<filepath>/")
 def returnFile(filepath):
     """ Attempt to return files from site from their equivalent path at the
