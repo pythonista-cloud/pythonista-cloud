@@ -11,7 +11,7 @@ staticdir = os.path.join(localdir, "../static")
 app = flask.Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
     """ Return the main page (from /site/main.html) for requests to the file
     root """
