@@ -24,14 +24,10 @@ Sorted roughly by order of planned implementation
 1. **Basic update system**: the `cloud.update("my_module")` method will retrieve `my_module` from the index, then check the GitHub repo for new releases. If the latest release is beyond the release version stored in `~/cloud.json`, the new version will be downloaded and installed.
 2. **More package info**: Allow adding extra information to packages like:
   - supported Python versions, to determine whether to install into `site-packages`, `site-packages-2`, or `site-packages-3`
-3. **User login system**: Turn `pythonista.cloud` into a full platform with user accounts, etc. This will allow things like removing packages to take place without contacting me.
+3. **User login system**: Turn `pythonista.cloud` into a full platform with user accounts, etc. through GitHub OAuth. This will allow things like removing packages to take place without contacting me.
   - Each package is tied to a user
   - Package analytics
   - Delete packages
-4. **Uploads without GitHub**: Allow registered users to upload URLs for each package version directly to `pythonista.cloud` without having a GitHub repo
-5. **Finer-grained control for GitHub users**: Give GitHub users more control.
-  - Allow users to publish releases individually, tied to a single commit.
-  - Allow descriptions that are different from descriptions on GitHub
 
 ## Contribute
 Pull Requests are more than welcome, as are bug reports.
