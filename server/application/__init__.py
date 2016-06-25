@@ -22,11 +22,7 @@ def index():
 def returnFile(filepath):
     """ Attempt to return files from site from their equivalent path at the
     root (/main.html -> /site/main.html) """
-    testpath = os.path.join(staticdir, filepath)
-    if os.path.exists(testpath):
-        return flask.send_from_directory(staticdir, filepath)
-    else:
-        flask.abort(404)
+    return flask.send_from_directory(staticdir, filepath)
 
 if __name__ == "__main__":
     app.run(debug=True)
