@@ -21,7 +21,7 @@ def index():
 @app.route("/", methods=["POST"])
 def submit():
     """ Allow submission of new packages via a POST request """
-    return "Data recieved: {}".format(flask.request.get_json())
+    return "Data recieved: {}".format(flask.request.get_json(force=True))
 
 
 @app.route("/<filepath>/")
