@@ -1,2 +1,9 @@
+# Stuff I'm intentionally ignoring
 server/static/particleground.min.js
+
+# Misc
 .DS_Store
+
+# Python
+__pycache__
+*.py[cod]
