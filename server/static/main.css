@@ -64,8 +64,11 @@ code {
 
 /* First section should be full width and height */
 
-#one {
+.full-width {
   width: 100vw;
+}
+
+#one {
   height: 100vh;
   padding: 10% 10% 0;
   position: relative;
@@ -74,7 +77,6 @@ code {
 #two {
   background: #fff;
   color: #444;
-  width: 100vw;
   overflow: hidden;
   padding: 10%;
   position: relative;
