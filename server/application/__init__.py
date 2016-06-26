@@ -1,7 +1,7 @@
 """ The main pythonista.cloud application. Contains the basic logic for
 pythonista.cloud. """
 
-import os
+import os.path
 
 import flask
 
@@ -28,7 +28,11 @@ def submit():
 def returnFile(filepath):
     """ Attempt to return files from site from their equivalent path at the
     root (/main.html -> /site/main.html) """
-    return flask.send_from_directory(staticdir, filepath)
+    joined = os.path.join(staticdir, filepath)
+    if os.path.isdir(joined):
+        return flask.send_from_directory(joined, "index.html")
+    else:
+        return flask.send_from_directory(staticdir, filepath)
 
 if __name__ == "__main__":
     app.run(debug=True)
