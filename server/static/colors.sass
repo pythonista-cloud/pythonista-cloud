@@ -1,0 +1,45 @@
+// Functions
+
+@function multiply($color-a, $color-b)
+  $red: (red($color-a) / 255) * (red($color-b) / 255) * 255
+  $green: (green($color-a) / 255) * (green($color-b) / 255) * 255
+  $blue: (blue($color-a) / 255) * (blue($color-b) / 255) * 255
+  @return rgb($red, $green, $blue)
+
+@function screen($color-a, $color-b)
+  @return invert(multiply(invert($color-a), invert($color-b)))
+
+@function extend-gradient($color-a, $color-b, $amount: 100)
+  // "extend" a gradient by continuing its rate of change
+  $red: red($color-b) - (red($color-a) - red($color-b))
+  $green: green($color-b) - (green($color-a) - green($color-b))
+  $blue: green($color-b) - (blue($color-a) - blue($color-b))
+  @return mix(rgb($red, $green, $blue), $color-b, $amount)
+
+// Pythonista gradient colors
+$pythonista3-a: #00d38b
+$pythonista3-b: #009285
+// #00518c
+$pythonista3-gradient-extended: extend-gradient($pythonista3-a, $pythonista3-b)
+// #007289;
+$pythonista3-gradient-half-extended: extend-gradient($pythonista3-a, $pythonista3-b, 50)
+
+body
+  color: $pythonista3-gradient-extended
+  background-color: $pythonista3-gradient-half-extended
+
+$pythonista2-a: #0095b3
+$pythonista2-b: #00618b
+
+// Hard-coded other colors
+$background: #1d262f
+
+// The rest of the color palette is based on the pythonista colors
+$pythonista3-accent: screen($pythonista3-a, $pythonista3-b)
+$pythonista2-accent: screen($pythonista2-a, $pythonista2-b)
+
+$a-colors: mix($pythonista3-a, $pythonista2-a)
+$b-colors: mix($pythonista3-b, $pythonista2-b)
+$a-dark: darken($a-colors, 10)
+$b-dark: darken($b-colors, 10)
+$a-darker: darken($a-colors, 20)
