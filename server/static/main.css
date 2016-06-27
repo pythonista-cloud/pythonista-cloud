@@ -91,11 +91,16 @@ pre {
   position: fixed;
   top: 0;
   right: 0;
-  /* Allow buttons to scroll on iOS */
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  text-align: right;
+
+  /* Allow buttons to scroll on small screens */
   max-width: 100%;
   overflow-x: scroll;
   white-space: nowrap;
 }
+
 .buttons button,
 .buttons a {
   /* Ugh, default styles */
@@ -108,7 +113,7 @@ pre {
   text-decoration: none;
   cursor: pointer;
 
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: transparent;
 
   text-transform: uppercase;
   margin: 0;
@@ -118,7 +123,7 @@ pre {
 }
 .buttons button:hover,
 .buttons a:hover {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 
