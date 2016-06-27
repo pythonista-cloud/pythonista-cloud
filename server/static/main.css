@@ -76,7 +76,6 @@ a {
 }
 
 pre {
-  border: 1px solid #333b43;
   width: 100%;
   max-width: 500px;
 
@@ -99,10 +98,4 @@ pre {
   background-color: rgba(255, 255, 255, 0.3);
   padding: 1px 3px 3px;
   font-family: "Inconsolata", monospace;
-}
-
-code[class*="language-"],
-pre[class*="language-"] {
-  font-size: 1.1em;
-  line-height: 1.2em;
 }
