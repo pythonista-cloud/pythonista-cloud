@@ -70,7 +70,7 @@ pre[class*="language-"] {
 /* First section should be full width and height */
 
 .full-width {
-  width: 100vw;
+  width: 100%;
 }
 
 #one {
