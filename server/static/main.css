@@ -44,18 +44,6 @@ a {
   padding-bottom: 1px;
 }
 
-@media (max-width: 420px) {
-  h1 {
-    font-size: 12.5vw;
-  }
-  h2 {
-    font-size: 7vw;
-  }
-  p {
-    font-size: 5vw;
-  }
-}
-
 /* First section should be full width and height */
 
 .full-width {
@@ -93,9 +81,67 @@ pre {
   left: 0;
 }
 
-/* Rules for Prism */
 :not(pre) > code {
   background-color: rgba(255, 255, 255, 0.3);
   padding: 1px 3px 3px;
   font-family: "Inconsolata", monospace;
+}
+
+.buttons {
+  position: fixed;
+  top: 0;
+  right: 0;
+  /* Allow buttons to scroll on iOS */
+  max-width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+.buttons button,
+.buttons a {
+  /* Ugh, default styles */
+  border: none;
+  border-radius: none;
+  color: #fff;
+  font-family: Raleway, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+
+  background-color: rgba(255, 255, 255, 0.2);
+
+  text-transform: uppercase;
+  margin: 0;
+  padding: 10px;
+
+  transition: 0.2s background-color;
+}
+.buttons button:hover,
+.buttons a:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* Styles for small screens (namely portrait iPhones).
+ * These styles adjust font sizes, and re-style some other things.
+ */
+
+@media (max-width: 420px) {
+  h1 {
+    font-size: 12.5vw;
+  }
+  h2 {
+    font-size: 7vw;
+  }
+  p {
+    font-size: 5vw;
+  }
+  #one {
+    padding-top: 20%;
+  }
+  .buttons button,
+  .buttons a {
+    font-size: 15px;
+    padding: 6px;
+  }
 }
