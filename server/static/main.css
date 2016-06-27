@@ -44,12 +44,17 @@ a {
   padding-bottom: 1px;
 }
 
-code {
+:not(pre) > code {
   background-color: rgba(255, 255, 255, 0.3);
   padding: 1px 3px 3px;
   font-family: "Inconsolata", monospace;
 }
 
+code[class*="language-"],
+pre[class*="language-"] {
+  font-size: 1.1em;
+  line-height: 1.2em;
+}
 @media (max-width: 420px) {
   h1 {
     font-size: 12.5vw;
@@ -75,11 +80,21 @@ code {
 }
 
 #two {
-  background: #fff;
-  color: #444;
+  background: #1d262f;
   overflow: hidden;
   padding: 10%;
   position: relative;
+}
+
+pre {
+  border: 1px solid #333b43;
+  width: 100%;
+  max-width: 500px;
+
+  /* Center horizontally */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 #particles {

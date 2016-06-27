@@ -1,5 +1,6 @@
 # Stuff I'm intentionally ignoring
 server/static/particleground.min.js
+server/static/prism-duotone-sea.css
 
 ###############################################################################
 
