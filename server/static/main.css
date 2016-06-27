@@ -44,17 +44,6 @@ a {
   padding-bottom: 1px;
 }
 
-:not(pre) > code {
-  background-color: rgba(255, 255, 255, 0.3);
-  padding: 1px 3px 3px;
-  font-family: "Inconsolata", monospace;
-}
-
-code[class*="language-"],
-pre[class*="language-"] {
-  font-size: 1.1em;
-  line-height: 1.2em;
-}
 @media (max-width: 420px) {
   h1 {
     font-size: 12.5vw;
@@ -103,4 +92,17 @@ pre {
   position: fixed;
   top: 0;
   left: 0;
+}
+
+/* Rules for Prism */
+:not(pre) > code {
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 1px 3px 3px;
+  font-family: "Inconsolata", monospace;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  font-size: 1.1em;
+  line-height: 1.2em;
 }
