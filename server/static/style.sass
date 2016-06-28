@@ -1,0 +1,138 @@
+@import colors
+$white: #fff
+
+*
+  box-sizing: border-box
+
+// Normal stuff
+
+body
+  color: $white
+
+  font-family: 'Raleway', sans-serif
+  margin: 0
+
+  // Fallback - average of the two gradient colors
+  background: $pythonista3
+  background: linear-gradient($pythonista3-a, $pythonista3-b)
+  background-attachment: fixed
+
+  -webkit-font-smoothing: antialiased
+
+h1
+  font-size: 7vw
+  font-weight: 100
+  text-transform: uppercase
+  margin: 0
+  text-align: center
+
+h2
+  font-size: 2vw
+  font-weight: 400
+  text-align: center
+
+p
+  margin-top: 40px
+  font-size: 1.5vw
+  font-weight: 400
+
+a
+  color: $white
+  text-decoration: none
+  border-bottom: 1px solid $white
+  padding-bottom: 1px
+
+.full-width
+  width: 100%
+
+#one
+  height: 100vh
+  padding: 10% 10% 0
+  position: relative
+
+#two
+  background: $background
+  overflow: hidden
+  padding: 10%
+  position: relative
+
+pre
+  width: 100%
+  max-width: 500px
+
+  // Center horizontally
+  position: relative
+  left: 50%
+  transform: translateX(-50%)
+
+#particles
+  width: 100vw
+  height: 100vh
+  position: fixed
+  top: 0
+  left: 0
+
+:not(pre) > code
+  background-color: transparentize($white, .7)
+  padding: 1px 3px 3px
+  font-family: 'Inconsolata', monospace
+
+.buttons
+  position: fixed
+  top: 0
+  right: 0
+  width: 100%
+  background-color: transparentize($white, .8)
+  -webkit-backdrop-filter: blur(2px) saturate(1.1)
+  backdrop-filter: blur(2px) saturate(1.1)
+  text-align: right
+
+  // Allow buttons to scroll on small screens
+  max-width: 100%
+  overflow-x: scroll
+  white-space: nowrap
+
+  button,
+  a
+    // Ugh, default styles
+    border: 0
+    border-radius: 0
+    color: $white
+    font-family: Raleway, sans-serif
+    font-size: 1.3vw
+    font-weight: 500
+    text-decoration: none
+    cursor: pointer
+
+    background-color: transparent
+
+    text-transform: uppercase
+    margin: 0
+    padding: 10px
+
+    transition: .2s background-color
+
+    &:hover
+      background-color: transparentize($white, .7)
+
+// Styles for small screens (namely portrait iPhones).
+   These styles adjust font sizes, and re-style some other things.
+
+@media (max-width: 420px)
+  h1
+    font-size: 12.5vw
+
+  h2
+    font-size: 7vw
+
+  p
+    font-size: 5vw
+
+  #one
+    padding-top: 20%
+
+  .buttons
+    button,
+    a
+      font-size: 5vw
+      padding: 6px
