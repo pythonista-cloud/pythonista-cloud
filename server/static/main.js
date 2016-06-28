@@ -15,10 +15,22 @@ function magicfyPreTags(searchIn) {
 
 
 window.onload = function () {
+  // Set up globals
+  vex.defaultOptions.className = 'vex-theme-plain';
+
   // Initialize particleground
   particleground(document.getElementById("particles"), {
     dotColor: '#99e0cf',
     lineColor: '#99e0cf'
   });
   magicfyPreTags(document);
+
+  // Bind buttons
+  document.getElementById("submit").onclick = function() {
+    vex.dialog.alert("Package submission is coming soon!");
+  };
+  document.getElementById("log-in").onclick = function() {
+    console.log(1);
+    vex.dialog.alert("GitHub login is coming soon!");
+  };
 };
