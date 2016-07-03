@@ -3,6 +3,9 @@ server/static/particleground.min.js
 
 .sass-cache
 
+# God damn HFS+. I can't wait for APFS
+.DS_Store
+
 ###############################################################################
 
 # From https://github.com/github/gitignore/blob/master/Python.gitignore
