@@ -22,12 +22,22 @@ For the initial release, I'll keep things very basic. The server will have as li
 #### A non-exhaustive list of planned features for the longer-term future
 Sorted roughly by order of planned implementation
 
-1. **User login system**: Turn `pythonista.cloud` into a full platform with user accounts, etc. through GitHub OAuth. This will allow things like removing packages to take place without contacting me.
+1. **Module versions**: `cloud` will be able to handle multiple cached versions of modules and install different versions. This will work like so:
+```python
+import cloud
+cloud.config(
+    livejson=("==", "1.6.2"),
+    stash=(">=", "0.5")
+)
+from cloud import livejson  # imports version 1.6.2
+```
+internally, in the `~/cloud/` directory, multiple versions of packages will be installed, with names like `livejson1.6.2.py`, and `from cloud import` will handle returning the correct one based on your configuration.
+2. **User login system**: Turn `pythonista.cloud` into a full platform with user accounts, etc. through GitHub OAuth. This will allow things like removing packages to take place without contacting me.
   - Each package is tied to a user
   - Package analytics
   - Delete packages
-2. **Basic update system**: the `cloud.update("my_module")` method will retrieve `my_module` from the index, then check the GitHub repo for new releases. If the latest release is beyond the release version stored in `~/cloud.json`, the new version will be downloaded and installed.
-3. **Easy installers**: `pythonista.cloud` will be able to generate short snippets like
+3. **Basic update system**: the `cloud.update("my_module")` method will retrieve `my_module` from the index, then check the GitHub repo for new releases. If the latest release is beyond the release version stored in `~/cloud.json`, the new version will be downloaded and installed.
+4. **Easy installers**: `pythonista.cloud` will be able to generate short snippets like
 ```python
 import requests as r; exec(r.get("http://i.pythonista.cloud/livejson"))
 ```
