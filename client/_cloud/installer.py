@@ -1,5 +1,5 @@
 """Handles the installation of downloaded modules."""
-import cloud.downloader
+from _cloud import downloader
 
 
 def install(zip_path, py_versions):

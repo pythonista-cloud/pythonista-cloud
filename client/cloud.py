@@ -5,7 +5,7 @@ This module serves as the main interface.
 
 import sys
 
-from cloud import module_importer
+from _cloud import module_importer
 
 
 class CloudHandler(object):

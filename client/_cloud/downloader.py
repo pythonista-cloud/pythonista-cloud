@@ -7,7 +7,7 @@ import os
 
 import requests
 
-from cloud import utils
+from _cloud import utils
 
 # The index from which we fetch modules. This points to a CouchDB database, not
 # an entire CouchDB instance.

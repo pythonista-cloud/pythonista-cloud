@@ -5,7 +5,7 @@ This might be more complicated later.
 
 import sys
 
-import cloud.installer
+from _cloud import downloader, installer
 
 
 def Import(module_name):
@@ -15,7 +15,7 @@ def Import(module_name):
         return sys.modules[module_name]
     # The module needs to be installed
     else:
-        cloud.installer.install(
-            cloud.downloader.download(module_name)
+        installer.install(
+            downloader.download(module_name)
         )
         return __import__(module_name)
