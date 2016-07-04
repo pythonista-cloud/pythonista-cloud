@@ -15,6 +15,7 @@ PACKAGE_SCHEMA = {
     "properties": {
         "name": {"type": "string"},
         "url": {"type": "string"},
+        "entry_point": {"type": "string"},
         "py_versions": {
             "type": "array",
             "items": {
@@ -24,7 +25,8 @@ PACKAGE_SCHEMA = {
     },
     "required": [
         "name",
-        "url"
+        "url",
+        "entry_point"
     ]
 }
 PACKAGE_VALID_KEYS = PACKAGE_SCHEMA["properties"].keys()
