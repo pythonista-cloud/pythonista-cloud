@@ -27,6 +27,11 @@ Sorted roughly by order of planned implementation
   - Package analytics
   - Delete packages
 2. **Basic update system**: the `cloud.update("my_module")` method will retrieve `my_module` from the index, then check the GitHub repo for new releases. If the latest release is beyond the release version stored in `~/cloud.json`, the new version will be downloaded and installed.
+3. **Easy installers**: `pythonista.cloud` will be able to generate short snippets like
+```python
+import requests as r; exec(r.get("http://i.pythonista.cloud/livejson"))
+```
+to install modules
 
 ## Contribute
 Pull Requests are more than welcome, as are bug reports.
