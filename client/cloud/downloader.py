@@ -7,7 +7,7 @@ zip files via GitHub.
 
 class DownloadedModule(object):
     """A class to store basic information about a downloaded module.
-    
+
     Stores the path to a downloaded zip file, as well as metadata like GitHub
     URL and supported Python versions.
     """
@@ -16,7 +16,8 @@ class DownloadedModule(object):
         for i in metadata:
             setattr(self, i, metadata[i])
 
+
 def download(module_name):
     """Download a zip archive for a remote module."""
-    
+
     return DownloadedModule(extracted_path, metadata)
