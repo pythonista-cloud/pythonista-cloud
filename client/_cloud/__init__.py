@@ -8,7 +8,7 @@ import sys
 from _cloud import downloader, installer
 
 
-class CloudModule(object):
+class Module(object):
     """The magical API around downloading / installing /Â importing things."""
     def __init__(self, name):
         self.name = name
