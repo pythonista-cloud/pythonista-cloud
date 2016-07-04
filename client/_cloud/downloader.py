@@ -8,7 +8,6 @@ import os
 
 import requests
 
-from _cloud import utils
 
 # The index from which we fetch modules. This points to a CouchDB database, not
 # an entire CouchDB instance.
@@ -30,6 +29,6 @@ def download(module_name):
     url = metadata["url"]
     zip_url = os.path.join(url, "archive/master.zip")
     req = requests.get(zip_url)
-    bytes = io.BytesIO(req.content)
+    zip = io.BytesIO(req.content)
 
-    return metadata, bytes
+    return zip, metadata

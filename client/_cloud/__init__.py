@@ -23,13 +23,14 @@ class Module(object):
 
     def download(self):
         """Download a module to a BytesIO as a zip file."""
-        self.metadata, self._zip = downloader.download(self.name)
+        self._zip, self.metadata = downloader.download(self.name)
         self.downloaded = True
         return True
 
     def install(self):
         """Install a module from an in-memory zip."""
-        installer.install(self.metadata, self._zip)
+        installer.install(self._zip, self.metadata)
 
     def importme(self):
+        """Return a module object for this module."""
         return __import__(self.name)
