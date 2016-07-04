@@ -12,7 +12,7 @@ class CloudImportHandler(object):
     """Implements custom behavior when running 'from cloud import x'"""
     def __getattr__(self, key):
         """ Add a module named 'key' from the index into your namespace """
-        mod = _cloud.CloudModule(key)
+        mod = _cloud.Module(key)
         mod.download()
         mod.install()
         return mod.importme()
