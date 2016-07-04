@@ -3,6 +3,7 @@
 First queries the index at db.pythonista.cloud, then downloads the modules as
 zip files via GitHub.
 """
+import io
 import os
 
 import requests
@@ -26,8 +27,9 @@ def fetch_from_index(module_name):
 def download(module_name):
     """Download a zip archive for a remote module."""
     metadata = fetch_from_index(module_name)
-    # magic!
-    return metadata, "<magical_bytesio>"
+    url = metadata["url"]
+    zip_url = os.path.join(url, "archive/master.zip")
+    req = requests.get(zip_url)
+    bytes = io.BytesIO(req.content)
 
-if __name__ == "__main__":
-    print(fetch_from_index("livejson"))
+    return metadata, bytes
