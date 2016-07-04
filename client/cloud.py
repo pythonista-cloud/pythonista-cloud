@@ -5,14 +5,17 @@ This module serves as the main interface.
 
 import sys
 
-from _cloud import module_importer
+import _cloud
 
 
-class CloudHandler(object):
+class CloudImportHandler(object):
     """Implements custom behavior when running 'from cloud import x'"""
     def __getattr__(self, key):
         """ Add a module named 'key' from the index into your namespace """
-        return module_importer.Import(key)
+        mod = _cloud.CloudModule(key)
+        mod.download()
+        mod.install()
+        return mod.importme()
 
     def __contains__(self, key):
         """ Allows syntax of 'x in cloud' """
