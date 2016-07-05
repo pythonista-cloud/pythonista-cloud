@@ -25,4 +25,3 @@ def install(zip, metadata):
         os.path.basename(metadata["entry_point"])
     )
     shutil.move(source, destination)
-    print(destination)
