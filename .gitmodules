@@ -1,0 +1,6 @@
+[submodule "server"]
+	path = server
+	url = https://github.com/controversial/pythonista-cloud-server
+[submodule "client"]
+	path = client
+	url = https://github.com/controversial/cloud
