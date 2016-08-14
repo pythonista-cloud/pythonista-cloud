@@ -5,7 +5,7 @@ A module for easily accessing public community Pythonista modules by downloading
 ### For initial release
 For the initial release, I'll keep things very basic. The server will have as little involvement as possible, and serve purely as an index.
 - **Server**
-  - [ ] Allow package submission
+  - [x] Allow package submission
     - `POST` to some JSON API on `pythonista.cloud`
     - Packages exist as JSON
       - Stores GitHub URL
