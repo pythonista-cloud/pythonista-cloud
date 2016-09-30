@@ -1,52 +1,72 @@
 # [pythonista.cloud](http://pythonista.cloud/) [![](https://img.shields.io/badge/Donate-PayPal-brightgreen.svg?style=flat-square)](https://paypal.me/luke0)
-A module for easily accessing public community Pythonista modules by downloading them automatically.
 
-## Project Roadmap
-### For initial release
-For the initial release, I'll keep things very basic. The server will have as little involvement as possible, and serve purely as an index.
-- **Server**
-  - [x] Allow package submission
-    - `POST` to some JSON API on `pythonista.cloud`
-    - Packages exist as JSON
-      - Stores GitHub URL
-      - Stores supported Python versions, to determine whether to install into `site-packages`, `site-packages-2`, or `site-packages-3`
-    - Upload URL to package, not package files. URL should be to a GitHub repo.
-  - [x] Allow retrieving package info
-    - This just happens through CouchDB (free http interfaces ftw!)
-- **Client**
-  - [x] Allow downloading files through standard import interface (`from cloud import my_module`)
-  - [ ] Cache modules
-  - [ ] Allow updating methods
+pythonista-cloud is intended as an easy solution for installing scripts to Pythonista from GitHub. Initially it will be a service for modules, but will eventually expand to scripts designed to be run directly like utilities and games.
 
-### For later releases
-`pythonista.cloud` will expand into a larger service. It will track package versions, descriptions of packages, and more.
+# How it works
 
-#### A non-exhaustive list of planned features for the longer-term future
-Sorted roughly by order of planned implementation
+## Server-side
+**Submission**: First, a user authenticates on the web via GitHub OAuth. The user can then visit a dashboard where they can browse their GitHub repositories and select one at a time to add to the index. When the user selects a repository to add, pythonista-cloud uses the GitHub API to check for the presence of and to download a `pythonista-cloud.json` file in the root of the repository. It will fill in known information (author, repo URL) and will validate the existing information (entry point, name, version number, dependencies, supported Python versions). If all checks pass, it will add the JSON file to the CouchDB index.
 
-1. **Module versions**: `cloud` will be able to handle multiple cached versions of modules and install different versions. Module versions will be pulled from GitHub. As far as code, this will work like so:
-  ```python
-  import cloud
-  cloud.config(
-      livejson=("==", "1.6.2"),
-      stash=(">=", "0.5")
-  )
-  from cloud import livejson  # imports version 1.6.2
-  ```
-  This will involve several internal restructurings.
-  - Modules will be stored in the `~/cloud/modules` directory.
-    - multiple versions of packages will be installed, with names like `livejson1.6.2.py`.
-    - `from cloud import` will handle returning the correct module based on your configuration. By default, `cloud` will return the latest version installed.
+## Client interfaces
+#### 1. The `cloud` module
+The `cloud` module is intended as the quick and easy interface to the index. It has functions for programmatically controlling everything, as well as an import syntax which is very useful for modules.
 
-2. **User login system**: Turn `pythonista.cloud` into a full platform with user accounts, etc. through GitHub OAuth. This will allow things like removing packages to take place without contacting me.
-  - Each package is tied to a user
-  - Package analytics
-  - Delete packages
-3. **Easy installers**: `pythonista.cloud` will be able to generate short snippets like
-```python
-import requests as r; exec(r.get("http://i.pythonista.cloud/livejson"))
-```
-to install modules
+**All-purpose**: `cloud` will have functions like `download_module` and similar.
+
+**Modules**: For modules in the index, `cloud` handles everything in the background so that all a user has to do is `from cloud import something`. For specific versions, the `cloud.config` function is supported:
+	import cloud
+	cloud.config(
+	    sample="0.1.6"
+	)
+	from cloud import sample  # version 0.1.6 is imported
+Inequalities are supported as well:
+	import cloud
+	cloud.config(
+	    sample=(">=", "0.1.6")
+	)
+	from cloud import sample  # Any cached version after 0.1.6 can be used
+
+In the background, `cloud` caches different versions of modules. When a script executes`from cloud import something`, `cloud` will ask the server what the latest version of `cloud` is. If this version is cached, `cloud` will use that. Otherwise, it will download and use the latest version. Note that this transaction can take place with a single HTTP request if `cloud` sends the latest installed version as a request header and the server handles the logic of determining if this is the latest version Since `cloud` stores all these module versions, a `cloud.clear_cache` function would make sense.
+
+#### 2. Installer snippets
+`installers.pythonista.cloud` will dynamically generate scripts to install certain modules to site-packages, or to install other scripts to Documents. The install scripts will vary only by an inserted variable at the beginning of the script. For example:
+	PACKAGE_NAME = "something"
+	# All the rest of the code is completely identical regardless of the package. The full JSON file will be downloaded from the server.
+
+The server will shorten the `http://installers.pythonista.cloud/something` links and keep a shortlink with every package. So an actual installer snippet will look something like
+	import requests as r; exec(r.get('http://goo.gl/abcdef').text)
+These installer scripts will present a UI displaying download progress and displaying options like cancel, etc.
+
+#### 3. An in-app package browser 
+There will be a cloud manager UI that users can use from the app. Users will be able to:
+- Browse packages and install them
+- View installed packages and uninstall either entire packages or specific versions
+- (maybe) submit packages if OAuth works in Pythonista, but I suspect this will require a WebView.
+
+#### Web browser
+Hooks for installing packages via websites will be included in the `cloud` module. Users of the website will be able to click an "install" button on any package and the URL scheme will be used to activate a script in `site-packages` with arguments including package name and callback URL. Among the tools available to package authors will be copiable HTML and markdown snippets for install buttons.
+
+**Verifying that the `cloud` module is installed**: The install links will be to `install.pythonista.cloud` URLs. This subdomain will be an important intermediary because it will be able to make sure users have `cloud` installed. When users are directed to `install.pythonista.cloud`:
+1. The website will check for the presence of a cookie on the user's device.
+2. If the cookie is present, the website will redirect the user to the Pythonista app and use the URL scheme to execute the install script
+3. If the cookie is *not* present, the user will be prompted to install the `cloud` module by pasting a snippet. This snippet will be a special installer that installs `cloud` and then redirects the user back to a new install page. This second install page will set the cookie, and proceed to installation of the desired package. The snippet will just redirect if the `cloud` module is already installed, so that the cookie is set.
+
+In this way, users only have to copy a snippet once to be able to one-click install scripts forever. The users won't have to know to run the snippet beforehand, they'll be prompted when they try to install. 
+
+## Goals
+The hope is that `pythonista-cloud` will grow into a standard widely used by the community.
+
+**Future features**:
+- Monetization (?)
+	- paid packages
+		- encrypted packages that can only be downloaded via a purchase and can't be easily run on other devices
+		- packages that are free but closed-source without payment (obfusticated)
+	- donations
+	- Package authors can pay for access to premium convenience features such as:
+		- automatically adding scripts to the wrench menu
+		- scripts that are run on startup automatically
+		- custom install locations without writing a whole new install script
+
 
 ## Contribute
 Pull Requests are more than welcome, as are bug reports.
