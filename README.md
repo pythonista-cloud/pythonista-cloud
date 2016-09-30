@@ -14,12 +14,15 @@ The `cloud` module is intended as the quick and easy interface to the index. It 
 **All-purpose**: `cloud` will have functions like `download_module` and similar.
 
 **Modules**: For modules in the index, `cloud` handles everything in the background so that all a user has to do is `from cloud import something`. For specific versions, the `cloud.config` function is supported:
+
 	import cloud
 	cloud.config(
 	    sample="0.1.6"
 	)
 	from cloud import sample  # version 0.1.6 is imported
+
 Inequalities are supported as well:
+
 	import cloud
 	cloud.config(
 	    sample=(">=", "0.1.6")
@@ -30,10 +33,12 @@ In the background, `cloud` caches different versions of modules. When a script e
 
 #### 2. Installer snippets
 `installers.pythonista.cloud` will dynamically generate scripts to install certain modules to site-packages, or to install other scripts to Documents. The install scripts will vary only by an inserted variable at the beginning of the script. For example:
+
 	PACKAGE_NAME = "something"
 	# All the rest of the code is completely identical regardless of the package. The full JSON file will be downloaded from the server.
 
 The server will shorten the `http://installers.pythonista.cloud/something` links and keep a shortlink with every package. So an actual installer snippet will look something like
+
 	import requests as r; exec(r.get('http://goo.gl/abcdef').text)
 These installer scripts will present a UI displaying download progress and displaying options like cancel, etc.
 
